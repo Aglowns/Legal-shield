@@ -1,0 +1,10 @@
+{
+  "name": "legal-shield-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix legal-shield",
+    "build": "npm run build --prefix legal-shield",
+    "start": "npm run start --prefix legal-shield",
+    "lint": "npm run lint --prefix legal-shield"
+  }
+}
