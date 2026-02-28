@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8000";
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
+const BACKEND_URL = (process.env.BACKEND_URL ?? "http://localhost:8000").trim().replace(/\/$/, "");
 
 const isProduction = process.env.VERCEL === "1";
 

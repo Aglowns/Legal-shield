@@ -117,7 +117,9 @@ If the frontend runs on a different host/port than the backend, set `BACKEND_URL
 
 ## Deploying
 
-- **Frontend:** Deploy the root Next.js app to [Vercel](https://vercel.com). Set `BACKEND_URL` to your backend URL.
+- **Frontend (Vercel):** Deploy this repo to [Vercel](https://vercel.com).
+  - **Root Directory** must be **`.`** (repo root) or empty—the Next.js app and `src/app/api/` live at the root. If you see 404 for `/api/analyze`, set Root Directory to `.` and redeploy.
+  - Add **`BACKEND_URL`** (your backend URL, e.g. `https://legal-shield-backend-3d56.onrender.com`) in Project → Settings → Environment Variables for **Production**, then **Redeploy**.
 - **Backend:** Deploy `backend/` to [Railway](https://railway.app), [Render](https://render.com), or [Fly.io](https://fly.io). Ensure `OPENAI_API_KEY` (and optionally `OPENROUTER_API_KEY`) and `ALLOWED_ORIGINS` are set for production.
 
 ---
