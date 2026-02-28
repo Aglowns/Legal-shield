@@ -12,10 +12,14 @@ export async function GET(request: Request) {
       `${BACKEND_URL}/api/resources?state=${encodeURIComponent(state)}&category=${encodeURIComponent(category)}`,
     );
 
-    const body = await response.json();
+    let body: { resources?: unknown[] };
+    try {
+      body = await response.json();
+    } catch {
+      body = { resources: [] };
+    }
     return NextResponse.json(body);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unexpected error.";
-    return NextResponse.json({ resources: [], error: message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ resources: [] }, { status: 200 });
   }
 }

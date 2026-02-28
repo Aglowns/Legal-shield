@@ -85,14 +85,20 @@ class ClassifierService:
             return
 
         logger.info("Loading local classifier model from %s …", model_path)
-        from llama_cpp import Llama
-        self._local_llm = Llama(
-            model_path=model_path,
-            n_ctx=4096,
-            n_threads=settings.classifier_threads,
-            verbose=False,
-        )
-        logger.info("Local classifier model loaded.")
+        try:
+            from llama_cpp import Llama
+            self._local_llm = Llama(
+                model_path=model_path,
+                n_ctx=4096,
+                n_threads=settings.classifier_threads,
+                verbose=False,
+            )
+            logger.info("Local classifier model loaded.")
+        except ImportError:
+            logger.warning(
+                "llama-cpp-python not installed; using keyword heuristics only. "
+                "Install it locally for a local model, or set OPENROUTER_API_KEY."
+            )
 
     def unload_model(self) -> None:
         self._local_llm = None
