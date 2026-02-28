@@ -53,10 +53,13 @@ def _extract_text_from_image_via_openai(file_bytes: bytes, ext: str) -> str:
                         {
                             "type": "text",
                             "text": (
-                                "Extract ALL text from this image exactly as written. "
-                                "Preserve the original formatting, paragraphs, and line breaks. "
-                                "Do not summarize, paraphrase, or add commentary. "
-                                "Only output the text that appears in the image."
+                                "Look at this image. Does it contain printed or handwritten text "
+                                "(like a document, letter, contract, or form)?\n\n"
+                                "If YES: Extract ALL the text exactly as written. Preserve formatting, "
+                                "paragraphs, and line breaks. Do not summarize or add commentary.\n\n"
+                                "If NO (e.g. it's a photo, drawing, screenshot of a non-text UI, meme, "
+                                "or any image without substantial readable text): respond with ONLY "
+                                "the word NO_TEXT_FOUND and nothing else."
                             ),
                         },
                         {
@@ -68,8 +71,10 @@ def _extract_text_from_image_via_openai(file_bytes: bytes, ext: str) -> str:
             ],
             max_tokens=4096,
         )
-        text = response.choices[0].message.content or ""
-        return text.strip()
+        text = (response.choices[0].message.content or "").strip()
+        if not text or "NO_TEXT_FOUND" in text.upper():
+            return ""
+        return text
     except Exception as e:
         logger.warning("OpenAI vision text extraction failed: %s", e)
         return ""

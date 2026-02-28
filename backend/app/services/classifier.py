@@ -112,6 +112,12 @@ class ClassifierService:
                 return result
             logger.warning("OpenRouter classification failed; trying fallback.")
 
+        if settings.openai_api_key:
+            result = await self._classify_openai(snippet)
+            if result is not None:
+                return result
+            logger.warning("OpenAI classification failed; trying fallback.")
+
         if self._local_llm is not None:
             return await asyncio.to_thread(self._classify_local, snippet)
 
@@ -148,6 +154,27 @@ class ClassifierService:
             logger.error("OpenRouter classifier error: %s", exc)
             return None
 
+    # ── OpenAI (fallback classifier) ────────────────────────────────
+
+    async def _classify_openai(self, snippet: str) -> ClassifierResult | None:
+        try:
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI(api_key=settings.openai_api_key)
+            completion = await client.chat.completions.create(
+                model=settings.openai_model,
+                temperature=0.1,
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": CLASSIFY_SYSTEM_PROMPT},
+                    {"role": "user", "content": CLASSIFY_USER_TEMPLATE % snippet},
+                ],
+            )
+            raw = completion.choices[0].message.content or ""
+            return self._parse_llm_response(raw.strip())
+        except Exception as exc:
+            logger.error("OpenAI classifier error: %s", exc)
+            return None
+
     # ── Local llama-cpp model ─────────────────────────────────────────
 
     def _classify_local(self, snippet: str) -> ClassifierResult:
@@ -171,9 +198,9 @@ class ClassifierService:
         except (ValueError, json.JSONDecodeError):
             logger.warning("Classifier returned unparseable response: %s", raw[:200])
             return ClassifierResult(
-                is_legal=True,
+                is_legal=False,
                 document_type="Unknown",
-                category="General",
+                rejection_reason="Unable to classify this document. It may not be a legal document.",
             )
 
         category = data.get("category", "General")
@@ -217,11 +244,11 @@ class ClassifierService:
         ]
         score = sum(1 for kw in legal_signals if kw in lower)
 
-        if score < 2 and not (score >= 1 and len(text) >= 800):
+        if score < 3:
             return ClassifierResult(
                 is_legal=False,
                 document_type="Non-legal",
-                rejection_reason="This document does not appear to be a legal document.",
+                rejection_reason="This does not appear to be a legal document. Upload a contract, lease, agreement, or other legal document.",
             )
 
         category = "General"
