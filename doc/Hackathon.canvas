@@ -1,0 +1,25 @@
+{
+	"nodes":[
+		{"id":"e16c932d0ffd763d","type":"text","text":"User Uploads a File","x":-1000,"y":-140,"width":180,"height":50},
+		{"id":"b6701ab235ec5429","type":"text","text":"Convert to Markdown (markitdown)","x":-860,"y":-20,"width":191,"height":50},
+		{"id":"c3e870846dfed2e8","type":"text","text":"Understand Context with tiny (CPU)","x":-640,"y":-20,"width":227,"height":50},
+		{"id":"68015e603d9c2645","type":"text","text":"Reject/Can't provide service","x":-640,"y":-165,"width":191,"height":50},
+		{"id":"61ad9d8c2775ab5a","type":"text","text":"","x":-740,"y":80,"width":380,"height":160},
+		{"id":"bf1c5e3fc386329f","type":"text","text":"Dynamic System prompt","x":-669,"y":100,"width":209,"height":50},
+		{"id":"6499e78a30b6fcae","type":"text","text":"Use file markdown","x":-663,"y":170,"width":198,"height":50},
+		{"id":"0e93b20fde022776","type":"text","text":"Big LLM (Claude/OpenAI)","x":-640,"y":298,"width":280,"height":50},
+		{"id":"d0260772e51e9a1b","type":"text","text":"Internal DB of Law resources at state, and local government level","x":-280,"y":60,"width":250,"height":80},
+		{"id":"8d728b216474073b","type":"text","text":"Response","x":-663,"y":390,"width":250,"height":60},
+		{"id":"61d4ee5355521aa5","x":-661,"y":551,"width":250,"height":60,"type":"text","text":"Formatted for Dashboard"}
+	],
+	"edges":[
+		{"id":"3e4dd9033a8e2370","fromNode":"e16c932d0ffd763d","fromSide":"right","toNode":"b6701ab235ec5429","toSide":"top"},
+		{"id":"d8292c7ae76cc1e0","fromNode":"b6701ab235ec5429","fromSide":"right","toNode":"c3e870846dfed2e8","toSide":"left"},
+		{"id":"2877c675ae125a32","fromNode":"c3e870846dfed2e8","fromSide":"top","toNode":"68015e603d9c2645","toSide":"bottom","label":"Not related"},
+		{"id":"587e820624b397b6","fromNode":"c3e870846dfed2e8","fromSide":"bottom","toNode":"61ad9d8c2775ab5a","toSide":"top"},
+		{"id":"228af815bbfc8b9c","fromNode":"61ad9d8c2775ab5a","fromSide":"bottom","toNode":"0e93b20fde022776","toSide":"top"},
+		{"id":"75b0291a7b3880fb","fromNode":"0e93b20fde022776","fromSide":"bottom","toNode":"8d728b216474073b","toSide":"top"},
+		{"id":"f060b4dd2ff702de","fromNode":"d0260772e51e9a1b","fromSide":"bottom","toNode":"8d728b216474073b","toSide":"right","label":"Append"},
+		{"id":"8a58e0c67573954d","fromNode":"8d728b216474073b","fromSide":"bottom","toNode":"61d4ee5355521aa5","toSide":"top"}
+	]
+}
