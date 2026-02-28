@@ -45,7 +45,7 @@ export function DocumentDropzone({ onAnalyze, loading }: DocumentDropzoneProps) 
       >
         <UploadCloud className="mx-auto mb-3 h-8 w-8 text-blue-700" />
         <p className="text-sm font-semibold text-blue-950">Drag and drop a legal file</p>
-        <p className="mt-1 text-xs text-slate-600">Supports PDF or plain text. You can also paste text below.</p>
+        <p className="mt-1 text-xs text-slate-600">Supports PDF, DOCX, DOC, images (PNG, JPG, etc.), and plain text. You can also paste text below.</p>
         <button
           type="button"
           className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-900 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
@@ -58,7 +58,7 @@ export function DocumentDropzone({ onAnalyze, loading }: DocumentDropzoneProps) 
           ref={inputRef}
           hidden
           type="file"
-          accept=".pdf,.txt,text/plain,application/pdf"
+          accept=".pdf,.txt,.doc,.docx,.png,.jpg,.jpeg,.gif,.webp,.bmp,.tiff,.tif,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,image/gif,image/webp,image/bmp,image/tiff"
           onChange={(event) => onFile(event.target.files?.[0])}
         />
         {file ? <p className="mt-3 text-xs text-slate-700">Selected: {file.name}</p> : null}

@@ -12,5 +12,5 @@ export interface LegalResource {
   address?: string;
   coverage?: string;
   categories: LegalCategory[];
-  source: "probono-api" | "curated";
+  source: string;
 }
